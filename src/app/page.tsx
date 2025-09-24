@@ -39,20 +39,30 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+    <div
+      className="min-h-screen p-8"
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#F3F3F3',
+        backgroundImage: `linear-gradient(0deg, transparent 24%, #E1E1E1 25%, #E1E1E1 26%, transparent 27%, transparent 74%, #E1E1E1 75%, #E1E1E1 76%, transparent 77%, transparent),
+                         linear-gradient(90deg, transparent 24%, #E1E1E1 25%, #E1E1E1 26%, transparent 27%, transparent 74%, #E1E1E1 75%, #E1E1E1 76%, transparent 77%, transparent)`,
+        backgroundSize: '55px 55px'
+      }}
+    >
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
           AI Demo App
         </h1>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Select AI Model:
           </label>
           <select
             value={modelName}
             onChange={(e) => setModelName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="google/gemini-exp-1121">Gemini Experimental 1121</option>
             <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
@@ -63,8 +73,8 @@ export default function Home() {
           </select>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             🍝 Lasagna Recipe Generator
           </h2>
           <button
@@ -75,8 +85,8 @@ export default function Home() {
             {loading ? 'Generating...' : 'Get Vegetarian Lasagna Recipe'}
           </button>
           {lasagnaRecipe && (
-            <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <pre className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <pre className="text-sm whitespace-pre-wrap text-gray-800">
                 {lasagnaRecipe}
               </pre>
             </div>
