@@ -2,21 +2,20 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { streamText } from 'ai';
 import { z } from 'zod';
 
-export const getLasagnaRecipe = async (modelName: string) => {
+export const streamLasagnaRecipe = (modelName: string) => {
   const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY!,
   });
 
-  const response = streamText({
+  const result = streamText({
     model: openrouter(modelName),
     prompt: 'Write a vegetarian lasagna recipe for 4 people.',
   });
 
-  await response.consumeStream();
-  return response.text;
+  return result.toTextStreamResponse();
 };
 
-export const getWeather = async (modelName: string) => {
+export const streamWeather = (modelName: string) => {
   const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY!,
     headers: {
@@ -24,7 +23,7 @@ export const getWeather = async (modelName: string) => {
     },
   });
 
-  const response = streamText({
+  const result = streamText({
     model: openrouter(modelName),
     prompt: 'What is the weather in San Francisco, CA in Fahrenheit?',
     tools: {
@@ -60,6 +59,5 @@ export const getWeather = async (modelName: string) => {
     },
   });
 
-  await response.consumeStream();
-  return response.text;
+  return result.toTextStreamResponse();
 };

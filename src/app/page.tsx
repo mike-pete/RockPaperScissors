@@ -10,14 +10,28 @@ export default function Home() {
 
   const handleGetLasagna = async () => {
     setLoading(true);
+    setLasagnaRecipe('');
     try {
       const response = await fetch('/api/lasagna', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ modelName }),
       });
-      const data = await response.json();
-      setLasagnaRecipe(data.recipe || data.error);
+
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        setLasagnaRecipe((prev) => prev + chunk);
+      }
     } catch (error) {
       setLasagnaRecipe('Error: ' + error);
     }
@@ -26,14 +40,28 @@ export default function Home() {
 
   const handleGetWeather = async () => {
     setLoading(true);
+    setWeather('');
     try {
       const response = await fetch('/api/weather', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ modelName }),
       });
-      const data = await response.json();
-      setWeather(data.weather || data.error);
+
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        setWeather((prev) => prev + chunk);
+      }
     } catch (error) {
       setWeather('Error: ' + error);
     }
