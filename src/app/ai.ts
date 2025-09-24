@@ -1,16 +1,35 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { streamText } from 'ai';
+import { generateObject } from 'ai';
+import { z } from 'zod';
 
-export const streamLasagnaRecipe = (modelName: string) => {
+const RPSChoiceSchema = z.object({
+  choice: z.enum(['rock', 'paper', 'scissors']),
+});
+
+export const generateRPSChoice = async (modelName: string) => {
   const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY!,
   });
 
-  const result = streamText({
+  // Generate a random seed to encourage variety
+  const seed = Math.floor(Math.random() * 1000);
+
+  const result = await generateObject({
     model: openrouter(modelName),
-    prompt: 'Write a vegetarian lasagna recipe for 4 people.',
+    schema: RPSChoiceSchema,
+    prompt: `You are playing rock-paper-scissors. Consider this random seed for variation: ${seed}.
+
+    Important: You must choose exactly ONE of these options with equal probability:
+    - "rock"
+    - "paper"
+    - "scissors"
+
+    Do not explain your choice. Simply return the JSON object with your selection.`,
+    mode: 'json',
   });
 
-  return result.toTextStreamResponse();
+  return new Response(JSON.stringify(result.object), {
+    headers: { 'Content-Type': 'application/json' },
+  });
 };
 

@@ -10,7 +10,7 @@ export default function Home() {
     setLoading(true);
     setLasagnaRecipe('');
     try {
-      const response = await fetch('/api/lasagna', {
+      const response = await fetch('/api/rps', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
