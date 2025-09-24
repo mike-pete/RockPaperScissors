@@ -83,15 +83,6 @@ export default function Home() {
           )}
         </div>
 
-        <div className="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
-          <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
-            ⚠️ Setup Required
-          </h3>
-          <p className="text-yellow-700 dark:text-yellow-300">
-            Make sure to set your <code className="bg-yellow-100 dark:bg-yellow-800 px-1 py-0.5 rounded">OPENROUTER_API_KEY</code> environment variable.
-            Get your API key from <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" className="underline">OpenRouter</a>.
-          </p>
-        </div>
       </div>
     </div>
   );
