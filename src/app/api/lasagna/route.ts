@@ -3,11 +3,7 @@ import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { modelName } = await request.json();
-
-    if (!modelName) {
-      return new Response('Model name is required', { status: 400 });
-    }
+    const modelName = 'anthropic/claude-3-haiku';
 
     return streamLasagnaRecipe(modelName);
   } catch (error) {

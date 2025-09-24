@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [modelName, setModelName] = useState('mistralai/ministral-3b');
   const [loading, setLoading] = useState(false);
   const [lasagnaRecipe, setLasagnaRecipe] = useState('');
 
@@ -14,7 +13,6 @@ export default function Home() {
       const response = await fetch('/api/lasagna', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ modelName }),
       });
 
       if (!response.body) {
@@ -37,7 +35,6 @@ export default function Home() {
     setLoading(false);
   };
 
-
   return (
     <div
       className="min-h-screen p-8"
@@ -51,32 +48,21 @@ export default function Home() {
       }}
     >
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-          AI Demo App
-        </h1>
-
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Select AI Model:
-          </label>
-          <select
-            value={modelName}
-            onChange={(e) => setModelName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="google/gemini-exp-1121">Gemini Experimental 1121</option>
-            <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
-            <option value="anthropic/claude-3-sonnet">Claude 3 Sonnet</option>
-            <option value="anthropic/claude-3-opus">Claude 3 Opus</option>
-            <option value="openai/gpt-4">GPT-4</option>
-            <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo</option>
-          </select>
+          <div className="flex gap-8 justify-center">
+            <button className="w-24 h-24 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-4xl flex items-center justify-center shadow-lg transition-colors">
+              🗿
+            </button>
+            <button className="w-24 h-24 rounded-full bg-green-500 hover:bg-green-600 text-white text-4xl flex items-center justify-center shadow-lg transition-colors">
+              📄
+            </button>
+            <button className="w-24 h-24 rounded-full bg-red-500 hover:bg-red-600 text-white text-4xl flex items-center justify-center shadow-lg transition-colors">
+              ✂️
+            </button>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-            🍝 Lasagna Recipe Generator
-          </h2>
           <button
             onClick={handleGetLasagna}
             disabled={loading}
@@ -92,7 +78,6 @@ export default function Home() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
