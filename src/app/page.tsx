@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [modelName, setModelName] = useState('anthropic/claude-3-haiku');
+  const [modelName, setModelName] = useState('mistralai/ministral-3b');
   const [loading, setLoading] = useState(false);
   const [lasagnaRecipe, setLasagnaRecipe] = useState('');
   const [weather, setWeather] = useState('');
@@ -56,6 +56,7 @@ export default function Home() {
             onChange={(e) => setModelName(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           >
+            <option value="google/gemini-exp-1121">Gemini Experimental 1121</option>
             <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
             <option value="anthropic/claude-3-sonnet">Claude 3 Sonnet</option>
             <option value="anthropic/claude-3-opus">Claude 3 Opus</option>

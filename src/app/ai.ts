@@ -19,6 +19,9 @@ export const getLasagnaRecipe = async (modelName: string) => {
 export const getWeather = async (modelName: string) => {
   const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY!,
+    headers: {
+      'X-Provider': 'google-ai-studio',
+    },
   });
 
   const response = streamText({
