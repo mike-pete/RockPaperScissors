@@ -49,6 +49,21 @@ export default function Home() {
     >
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <div className="mb-6">
+            <div className="text-center text-sm font-semibold text-gray-600 mb-2">
+              Context Window: 32,768
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-6 border-2 border-gray-300">
+              <div
+                className="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full transition-all duration-300 ease-in-out"
+                style={{ width: '100%' }}
+              >
+                <div className="h-full flex items-center justify-center text-white text-xs font-bold">
+                  32,768 / 32,768
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="flex gap-8 justify-center">
             <button className="w-24 h-24 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-4xl flex items-center justify-center shadow-lg transition-colors">
               🗿
