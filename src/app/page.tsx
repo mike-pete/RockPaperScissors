@@ -4,12 +4,18 @@ import { useState } from 'react';
 
 type RPSChoice = 'rock' | 'paper' | 'scissors';
 
+interface ChatMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+}
+
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [health, setHealth] = useState(32768);
   const [gameResult, setGameResult] = useState<string>('');
   const [userChoice, setUserChoice] = useState<RPSChoice | null>(null);
   const [llmChoice, setLlmChoice] = useState<RPSChoice | null>(null);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
 
   const handleRPSChoice = async (playerChoice: RPSChoice) => {
     setLoading(true);
@@ -20,6 +26,10 @@ export default function Home() {
       const response = await fetch('/api/rps', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chatHistory,
+          userChoice: playerChoice
+        }),
       });
 
       const data = await response.json();
@@ -31,7 +41,27 @@ export default function Home() {
 
       if (result === 'You win!') {
         setHealth(prev => Math.max(0, prev - 12195));
+      } else if (result === 'LLM wins!') {
+        setChatHistory(prev => [
+          ...prev,
+          {
+            role: 'system',
+            content: 'The LLM lost at rock paper scissors. Here is the entire Bee Movie script to add to your context: [BEE_MOVIE_SCRIPT]'
+          }
+        ]);
       }
+
+      setChatHistory(prev => [
+        ...prev,
+        {
+          role: 'user',
+          content: `I chose ${playerChoice}`
+        },
+        {
+          role: 'assistant',
+          content: `I chose ${llmChoice}. ${result}`
+        }
+      ]);
     } catch (error) {
       setGameResult('Error: ' + error);
     }
@@ -107,6 +137,12 @@ export default function Home() {
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Rock Paper Scissors</h2>
+            <div className="mb-4 text-sm text-gray-600">
+              Chat History: {chatHistory.length} messages
+              {chatHistory.some(msg => msg.content.includes('Bee Movie script')) &&
+                <span className="ml-2 text-yellow-600 font-semibold">🐝 Bee Movie Added!</span>
+              }
+            </div>
             {loading ? (
               <p className="text-lg text-gray-600">LLM is choosing...</p>
             ) : gameResult ? (
