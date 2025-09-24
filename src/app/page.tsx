@@ -6,7 +6,6 @@ export default function Home() {
   const [modelName, setModelName] = useState('mistralai/ministral-3b');
   const [loading, setLoading] = useState(false);
   const [lasagnaRecipe, setLasagnaRecipe] = useState('');
-  const [weather, setWeather] = useState('');
 
   const handleGetLasagna = async () => {
     setLoading(true);
@@ -38,35 +37,6 @@ export default function Home() {
     setLoading(false);
   };
 
-  const handleGetWeather = async () => {
-    setLoading(true);
-    setWeather('');
-    try {
-      const response = await fetch('/api/weather', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ modelName }),
-      });
-
-      if (!response.body) {
-        throw new Error('No response body');
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value);
-        setWeather((prev) => prev + chunk);
-      }
-    } catch (error) {
-      setWeather('Error: ' + error);
-    }
-    setLoading(false);
-  };
 
   return (
     <div className="min-h-screen p-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
@@ -93,46 +63,24 @@ export default function Home() {
           </select>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
-              🍝 Lasagna Recipe Generator
-            </h2>
-            <button
-              onClick={handleGetLasagna}
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Generating...' : 'Get Vegetarian Lasagna Recipe'}
-            </button>
-            {lasagnaRecipe && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <pre className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">
-                  {lasagnaRecipe}
-                </pre>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
-              🌤️ Weather Assistant
-            </h2>
-            <button
-              onClick={handleGetWeather}
-              disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Getting Weather...' : 'Get San Francisco Weather'}
-            </button>
-            {weather && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <pre className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">
-                  {weather}
-                </pre>
-              </div>
-            )}
-          </div>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+            🍝 Lasagna Recipe Generator
+          </h2>
+          <button
+            onClick={handleGetLasagna}
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Generating...' : 'Get Vegetarian Lasagna Recipe'}
+          </button>
+          {lasagnaRecipe && (
+            <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <pre className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">
+                {lasagnaRecipe}
+              </pre>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
